@@ -1,0 +1,37 @@
+*,
+*::before,
+*::after{
+  margin: 0;
+  padding: 0;
+}
+
+.calculator{
+  display: flex;
+  
+  height: 680px;
+  width: 530px;
+  border: 1px solid black; 
+}
+
+.display{
+  height: 50px;
+  width: 500px;
+  border: 1px solid black;
+  
+}
+
+.num-container{
+  float: left;
+  margin-top: 70px;
+  height: 500px;
+  width: 1080px;
+  border: 1px solid black;
+}
+
+.operators{
+  float: right;
+  height: 500px;
+  width: 110px;
+  border: 1px solid black;
+  margin-left: 400px;
+}
