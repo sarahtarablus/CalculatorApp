@@ -30,40 +30,65 @@ btn0.addEventListener('click', function(){displayNum(0)});
 btnPoint.addEventListener('click', function(){addPoint('.')});
 btnCE.addEventListener('click', clearDisplay);
 btnPlus.addEventListener('click', addNumbers);
+//btnEqual.addEventListener('click', resultOperation);
 
 let displayNumber = '';
+let firstNumber = '';
 
 function displayNum(num){
   if(displayNumber.length < 15){
-    displayNumber += num;
+    displayNumber += num
+    saveToSessionStorage();
     display.innerHTML = displayNumber;
-    console.log(displayNumber);
+    //console.log(displayNumber);
   }
 }
 
-//make sure only two points consecutive can not be written
 function addPoint(point){
-  displayNumber += point;
-  display.innerHTML = displayNumber;
-  console.log(displayNumber);
-} 
-
+  let lastNum = displayNumber.charAt(displayNumber.length - 1);
+  if(!isNaN(lastNum) && displayNumber.indexOf(point) === -1){
+    displayNumber += point;
+    saveToSessionStorage();
+    display.innerHTML = displayNumber;
+  }
+}
 
 function clearDisplay(){
   if( display.innerHTML !== ''){
     display.innerHTML = '';
     displayNumber = '';
     display.innerHTML = '0';
-   }
+    sessionStorage.clear();
+  }
+}
+
+function saveToSessionStorage(){
+  if(sessionStorage.getItem('numbers') === null){
+    let numbers = [];
+    numbers.push(displayNumber);
+    sessionStorage.setItem('numbers', JSON.stringify(numbers));
+  }else{
+    let numbers = sessionStorage.getItem('numbers');
+    let parsedNumbers = JSON.parse(numbers);
+    parsedNumbers.push(displayNumber);
+    sessionStorage.setItem('numbers', JSON.stringify(parsedNumbers));
+  }
 }
 
 function addNumbers(){
-  let x = displayNumber;
-  if( display.innerHTML !== ''){
-    display.innerHTML = '';
+  if(sessionStorage.getItem('numbers') !== null){
+    let numbers = sessionStorage.getItem('numbers');
+    let parsedNumbers = JSON.parse(numbers);
+    firstNumber = parsedNumbers[parsedNumbers.length - 1];
     displayNumber = '';
-   }
+    //console.log(firstNumber);
+    const x = firstNumber;
+    const y = displayNumber;
+    if(isNaN(Number(x) || Number(y))){
+      console.log('this number isNaN')
+    }else{
+      let k = Number(x) + Number(y);
+      console.log(k);
+    }
+  }
 }
-
-
-
