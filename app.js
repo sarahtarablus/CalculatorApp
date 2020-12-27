@@ -29,16 +29,19 @@ btn9.addEventListener('click', function(){displayNum(9)});
 btn0.addEventListener('click', function(){displayNum(0)});
 btnPoint.addEventListener('click', function(){addPoint('.')});
 btnCE.addEventListener('click', clearDisplay);
+//btnMin.addEventListener('click', SubstractNumbers);
 btnPlus.addEventListener('click', addNumbers);
-//btnEqual.addEventListener('click', resultOperation);
+btnMul.addEventListener('click', multiplyNum);
 
 let displayNumber = '';
 let firstNumber = '';
+let secondNumber = '';
+let resultNumber = '';
 
 function displayNum(num){
   if(displayNumber.length < 15){
     displayNumber += num
-    saveToSessionStorage();
+    saveToSessionStorage(displayNumber);
     display.innerHTML = displayNumber;
     //console.log(displayNumber);
   }
@@ -48,7 +51,7 @@ function addPoint(point){
   let lastNum = displayNumber.charAt(displayNumber.length - 1);
   if(!isNaN(lastNum) && displayNumber.indexOf(point) === -1){
     displayNumber += point;
-    saveToSessionStorage();
+    saveToSessionStorage(displayNumber);
     display.innerHTML = displayNumber;
   }
 }
@@ -62,7 +65,7 @@ function clearDisplay(){
   }
 }
 
-function saveToSessionStorage(){
+function saveToSessionStorage(num){
   if(sessionStorage.getItem('numbers') === null){
     let numbers = [];
     numbers.push(displayNumber);
@@ -70,10 +73,11 @@ function saveToSessionStorage(){
   }else{
     let numbers = sessionStorage.getItem('numbers');
     let parsedNumbers = JSON.parse(numbers);
-    parsedNumbers.push(displayNumber);
+    parsedNumbers.push(num);
     sessionStorage.setItem('numbers', JSON.stringify(parsedNumbers));
   }
 }
+
 
 function addNumbers(){
   if(sessionStorage.getItem('numbers') !== null){
@@ -81,14 +85,73 @@ function addNumbers(){
     let parsedNumbers = JSON.parse(numbers);
     firstNumber = parsedNumbers[parsedNumbers.length - 1];
     displayNumber = '';
-    //console.log(firstNumber);
-    const x = firstNumber;
-    const y = displayNumber;
-    if(isNaN(Number(x) || Number(y))){
-      console.log('this number isNaN')
-    }else{
-      let k = Number(x) + Number(y);
-      console.log(k);
-    }
+    secondNumber = parsedNumbers[parsedNumbers.length - 2];
+    let x = firstNumber;
+    let y = secondNumber;
+    let k = Number(x) + Number(y);
+    resultNumber = k;
+    console.log(resultNumber);
   }
+  if(sessionStorage.getItem('numbers') !== null){
+    let numbers = sessionStorage.getItem('numbers');
+    let parsedNumbers = JSON.parse(numbers);
+    parsedNumbers.push(resultNumber);
+    sessionStorage.setItem('numbers', JSON.stringify(parsedNumbers));
+  }
+    display.innerHTML = resultNumber;     
 }
+
+/*function SubstractNumbers(){
+  if(sessionStorage.getItem('numbers') !== null){
+    let numbers = sessionStorage.getItem('numbers');
+    let parsedNumbers = JSON.parse(numbers);
+    secondNumber = parsedNumbers[parsedNumbers.length - 1];
+    displayNumber = '';
+    firstNumber = parsedNumbers[parsedNumbers.length - 2];
+    let x = firstNumber;
+    let y = secondNumber;
+    let k = + [Number(y) - Number(x)];
+    resultNumber = k;
+    console.log(resultNumber);
+  }
+
+  if(sessionStorage.getItem('numbers') !== null){
+    let numbers = sessionStorage.getItem('numbers');
+    let parsedNumbers = JSON.parse(numbers);
+    parsedNumbers.push(resultNumber);
+    sessionStorage.setItem('numbers', JSON.stringify(parsedNumbers));
+  }
+    display.innerHTML = resultNumber; 
+}*/
+
+/*function resultOperation(){
+  display.innerHTML = resultNumber; 
+}*/
+
+function multiplyNum(){
+  if(sessionStorage.getItem('numbers') !== null){
+    let numbers = sessionStorage.getItem('numbers');
+    let parsedNumbers = JSON.parse(numbers);
+    firstNumber = parsedNumbers[parsedNumbers.length - 1];
+    displayNumber = '';
+    secondNumber = parsedNumbers[parsedNumbers.length - 2];
+    let x = firstNumber;
+    let x1 = Number(x);
+    let y = secondNumber;
+    let y1 = Number(y);
+    let k = parsedNumbers.reduce((x1, y1) => 
+      x1 * y1, 1);
+    resultNumber = k;
+    console.log(resultNumber);
+  }
+
+  /*if(sessionStorage.getItem('numbers') !== null){
+    let numbers = sessionStorage.getItem('numbers');
+    let parsedNumbers = JSON.parse(numbers);
+    parsedNumbers.push(resultNumber);
+    sessionStorage.setItem('numbers', JSON.stringify(parsedNumbers));
+  }
+    display.innerHTML = resultNumber;   */  
+}
+
+
