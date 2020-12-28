@@ -37,34 +37,62 @@ btnPlus.addEventListener('click', addition);
 
 let numbers = [];
 let memoryNumbers = [];
+let x;
+let y;
+let result;
+let clickCount = '';
 
 
 function displayNum(num){
   if(numbers.length < 15){
     numbers += num;
-    //saveToSessionStorage(displayNumber);
     display.innerHTML = numbers;
-    //console.log(numbers);
   }
 }
 
 function addition(e){
  e.preventDefault();
- btnPlus.onclick = () => {
-   if(numbers !== ''){
-    memoryNumbers = numbers;
-    memoryDisplay.innerHTML = memoryNumbers;
-    let x = memoryNumbers;
-    console.log(x);
-    numbers = [];
-    console.log(numbers);
-    display.innerHTML = '';
-   }
+  clickCount++;
+  console.log(clickCount);
+  if(numbers !== ''){
+  let numArray = numbers.toString().split("");
+  numbers.map(x => parseInt(x));
+  memoryNumbers.push(numbers) ;
+  console.log(memoryNumbers);
+  numbers = [];
+}
+  if(clickCount > 1){
+
   }
+
+ 
+  /*let memNums = memoryNumbers.split(',');
+  for(let i = 0; i < memNums.length; i++){
+      memNums[i] = +memNums[i];
+      
+      
+      memoryDisplay.innerHTML = memoryNumbers;
+      display.innerHTML = '';
+      if(clickCount > 1){
+        let memoryNumbers_array = memoryNumbers.split(',');
+        console.log(memoryNumbers_array);
+        
+    
+      }
+*/
+    }
+    
+   
+ 
+
+   
+  
+  
+  
   
   
  
- }
+ 
  
   
 
@@ -72,6 +100,7 @@ function addition(e){
 function clearDisplay(e){
  e.preventDefault();
  numbers = [];
+ memoryNumbers = [];
  display.innerHTML = '';
  memoryDisplay.innerHTML = '';
 }
