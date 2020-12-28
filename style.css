@@ -7,7 +7,7 @@
 
 .calculator {
   border-radius: 8px;
-  height: 420px;
+  height: 520px;
   width: 300px;
   border: 1px solid black;
   margin-left: 500px;
@@ -27,6 +27,18 @@
 }
 
 #display {
+  background-color: lightgray;
+  height: 70px;
+  width: 260px;
+  border: 1px solid black;
+  margin-left: 20px;
+  padding: 3px 0 0 9px;
+  border-radius: 5px;
+  font-size: 30px;
+  margin-top: 10px;
+}
+
+#display-2 {
   background-color: lightgray;
   height: 70px;
   width: 260px;

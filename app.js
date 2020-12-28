@@ -31,19 +31,17 @@ btnPoint.addEventListener('click', function(){addPoint('.')});
 btnCE.addEventListener('click', clearDisplay);
 //btnMin.addEventListener('click', SubstractNumbers);
 btnPlus.addEventListener('click', addNumbers);
-btnMul.addEventListener('click', multiplyNum);
+//btnMul.addEventListener('click', multiplyNum);
+//btnDiv.addEventListener('click', divideNum);
 
 let displayNumber = '';
-let firstNumber = '';
-let secondNumber = '';
-let resultNumber = '';
+
 
 function displayNum(num){
   if(displayNumber.length < 15){
     displayNumber += num
     saveToSessionStorage(displayNumber);
     display.innerHTML = displayNumber;
-    //console.log(displayNumber);
   }
 }
 
@@ -56,7 +54,8 @@ function addPoint(point){
   }
 }
 
-function clearDisplay(){
+function clearDisplay(e){
+  e.preventDefault()
   if( display.innerHTML !== ''){
     display.innerHTML = '';
     displayNumber = '';
@@ -79,18 +78,19 @@ function saveToSessionStorage(num){
 }
 
 
-function addNumbers(){
+function addNumbers(e){
+  e.preventDefault();
   if(sessionStorage.getItem('numbers') !== null){
     let numbers = sessionStorage.getItem('numbers');
     let parsedNumbers = JSON.parse(numbers);
-    firstNumber = parsedNumbers[parsedNumbers.length - 1];
+    let firstNumber = parsedNumbers[parsedNumbers.length - 2];
     displayNumber = '';
-    secondNumber = parsedNumbers[parsedNumbers.length - 2];
-    let x = firstNumber;
-    let y = secondNumber;
-    let k = Number(x) + Number(y);
-    resultNumber = k;
+    let secondNumber = displayNumber;
+    let x = Number(firstNumber);
+    let y = Number(secondNumber);
+    let resultNumber = x + y;
     console.log(resultNumber);
+    display.innerHTML = resultNumber;   
   }
   if(sessionStorage.getItem('numbers') !== null){
     let numbers = sessionStorage.getItem('numbers');
@@ -98,7 +98,7 @@ function addNumbers(){
     parsedNumbers.push(resultNumber);
     sessionStorage.setItem('numbers', JSON.stringify(parsedNumbers));
   }
-    display.innerHTML = resultNumber;     
+      
 }
 
 /*function SubstractNumbers(){
@@ -109,9 +109,11 @@ function addNumbers(){
     displayNumber = '';
     firstNumber = parsedNumbers[parsedNumbers.length - 2];
     let x = firstNumber;
+    let x1 = Number(x);
     let y = secondNumber;
-    let k = + [Number(y) - Number(x)];
-    resultNumber = k;
+    let y1 = Number(y);
+    x1 -= y1;
+    let resultNumber = x1;
     console.log(resultNumber);
   }
 
@@ -124,34 +126,53 @@ function addNumbers(){
     display.innerHTML = resultNumber; 
 }*/
 
-/*function resultOperation(){
-  display.innerHTML = resultNumber; 
-}*/
-
-function multiplyNum(){
+/*function multiplyNum(){
   if(sessionStorage.getItem('numbers') !== null){
     let numbers = sessionStorage.getItem('numbers');
     let parsedNumbers = JSON.parse(numbers);
-    firstNumber = parsedNumbers[parsedNumbers.length - 1];
+    let firstNumber = parsedNumbers[parsedNumbers.length - 1];
     displayNumber = '';
-    secondNumber = parsedNumbers[parsedNumbers.length - 2];
+    let secondNumber = parsedNumbers[parsedNumbers.length - 2];
     let x = firstNumber;
     let x1 = Number(x);
     let y = secondNumber;
     let y1 = Number(y);
-    let k = parsedNumbers.reduce((x1, y1) => 
-      x1 * y1, 1);
-    resultNumber = k;
+    x1 *= y1;
+    let resultNumber = x1;
     console.log(resultNumber);
   }
 
-  /*if(sessionStorage.getItem('numbers') !== null){
+  if(sessionStorage.getItem('numbers') !== null){
     let numbers = sessionStorage.getItem('numbers');
     let parsedNumbers = JSON.parse(numbers);
     parsedNumbers.push(resultNumber);
     sessionStorage.setItem('numbers', JSON.stringify(parsedNumbers));
   }
-    display.innerHTML = resultNumber;   */  
-}
+    display.innerHTML = resultNumber;    
+}*/
 
+/*function divideNum(){
+  if(sessionStorage.getItem('numbers') !== null){
+    let numbers = sessionStorage.getItem('numbers');
+    let parsedNumbers = JSON.parse(numbers);
+    let firstNumber = parsedNumbers[parsedNumbers.length - 1];
+    displayNumber = '';
+    let secondNumber = parsedNumbers[parsedNumbers.length - 2];
+    let x = firstNumber;
+    let x1 = Number(x);
+    let y = secondNumber;
+    let y1 = Number(y);
+    let resultNumber = y1/x1
+    console.log(resultNumber);
+    display.innerHTML = resultNumber; 
+  }
+
+  if(sessionStorage.getItem('numbers') !== null){
+    let numbers = sessionStorage.getItem('numbers');
+    let parsedNumbers = JSON.parse(numbers);
+    parsedNumbers.push(resultNumber);
+    sessionStorage.setItem('numbers', JSON.stringify(parsedNumbers));
+  }
+     
+}*/
 
