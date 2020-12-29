@@ -28,19 +28,24 @@ btn7.addEventListener('click', function(){displayNum(7)});
 btn8.addEventListener('click', function(){displayNum(8)});
 btn9.addEventListener('click', function(){displayNum(9)});
 btn0.addEventListener('click', function(){displayNum(0)});
-//btnPoint.addEventListener('click', function(){addPoint('.')});
+btnPoint.addEventListener('click', function(){addPoint('.')});
 btnCE.addEventListener('click', clearDisplay);
-//btnMin.addEventListener('click', SubstractNumbers);
+btnMin.addEventListener('click', substractNumbers);
 btnPlus.addEventListener('click', addition);
-//btnMul.addEventListener('click', multiplyNum);
-//btnDiv.addEventListener('click', divideNum);
+btnMul.addEventListener('click', multiplyNum);
+btnDiv.addEventListener('click', divideNum);
+//btnEqual.addEventListener('click', displayResult);
 
-let numbers = [];
-let memoryNumbers = [];
-let x;
-let y;
-let result;
-let clickCount = '';
+let numbers = [],
+    memoryNumbers = [],
+    x,
+    y,
+    result,
+    addClickCount = '',
+    minClickCount = '',
+    mulClickCount = '',
+    divClickCount = '';
+
 
 
 function displayNum(num){
@@ -50,59 +55,110 @@ function displayNum(num){
   }
 }
 
-function addition(e){
- e.preventDefault();
-  clickCount++;
-  console.log(clickCount);
-  if(numbers !== ''){
-  let numArray = numbers.toString().split("");
-  numbers.map(x => parseInt(x));
-  memoryNumbers.push(numbers) ;
-  console.log(memoryNumbers);
-  numbers = [];
-}
-  if(clickCount > 1){
 
+
+function addPoint(point){
+  let lastNum = numbers.charAt(numbers.length - 1);
+  if(!isNaN(lastNum) && numbers.indexOf(point) === -1){
+    numbers += point;
+    display.innerHTML = numbers;
   }
-
+}
  
-  /*let memNums = memoryNumbers.split(',');
-  for(let i = 0; i < memNums.length; i++){
-      memNums[i] = +memNums[i];
-      
-      
-      memoryDisplay.innerHTML = memoryNumbers;
-      display.innerHTML = '';
-      if(clickCount > 1){
-        let memoryNumbers_array = memoryNumbers.split(',');
-        console.log(memoryNumbers_array);
-        
-    
-      }
-*/
-    }
-    
-   
- 
-
-   
-  
-  
-  
-  
-  
- 
- 
- 
-  
 
 
 function clearDisplay(e){
- e.preventDefault();
- numbers = [];
- memoryNumbers = [];
- display.innerHTML = '';
- memoryDisplay.innerHTML = '';
+  e.preventDefault();
+  numbers = [];
+  memoryNumbers = [];
+  addClickCount = '';
+  minClickCount = '';
+  mulClickCount = '';
+  divClickCount = '';
+  display.innerHTML = '';
+  memoryDisplay.innerHTML = '';
 }
+
+
+
+function addition(e){
+ e.preventDefault();
+  memoryNumbers.push(numbers);
+  console.log(memoryNumbers);
+  numbers = [];
+  addClickCount++;
+  if(addClickCount > 1){
+   x = memoryNumbers[memoryNumbers.length-2];
+   y = memoryNumbers[memoryNumbers.length-1];
+   let x1 = Number(x),
+       y1 = Number(y);
+   result = x1 + y1;
+   memoryNumbers.push(result);
+   display.innerHTML = result;
+   console.log(result);
+ }
+}
+
+
+
+function substractNumbers(e){
+ e.preventDefault();
+  memoryNumbers.push(numbers);
+  console.log(memoryNumbers);
+  numbers = [];
+  minClickCount++;
+  if(minClickCount > 1){
+   x = memoryNumbers[memoryNumbers.length-2];
+   y = memoryNumbers[memoryNumbers.length-1];
+   let x1 = Number(x),
+       y1 = Number(y);
+   result = x1 - y1;
+   memoryNumbers.push(result);
+   console.log(result);
+ }
+}
+
+
+
+function divideNum(e){
+ e.preventDefault();
+  memoryNumbers.push(numbers);
+  console.log(memoryNumbers);
+  numbers = [];
+  mulClickCount++;
+  if(mulClickCount > 1){
+   x = memoryNumbers[memoryNumbers.length-2];
+   y = memoryNumbers[memoryNumbers.length-1];
+   let x1 = Number(x),
+       y1 = Number(y);
+   result = x1 / y1;
+   memoryNumbers.push(result);
+   console.log(result);
+ }
+}
+
+
+
+function multiplyNum(e){
+ e.preventDefault();
+  memoryNumbers.push(numbers);
+  console.log(memoryNumbers);
+  numbers = [];
+  divClickCount++;
+  if(divClickCount > 1){
+   x = memoryNumbers[memoryNumbers.length-2];
+   y = memoryNumbers[memoryNumbers.length-1];
+   let x1 = Number(x),
+       y1 = Number(y);
+   result = x1 * y1;
+   memoryNumbers.push(result);
+   console.log(result);
+  }
+ }
+
+ /*function displayResult(e){
+   e.preventDefault();
+
+ }*/
 
 
