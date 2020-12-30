@@ -81,7 +81,7 @@ function clearDisplay(e){
   mulClickCount = '';
   divClickCount = '';
   display.innerHTML = '';
-  memoryDisplay.innerHTML = '';
+ 
 }
 
 
@@ -89,7 +89,7 @@ function clearDisplay(e){
 function addition(e){
  e.preventDefault();
   addClickCount++;
-  if(memoryNumbers.length === 0 && numbers.length !== 0 && addClickCount == 1){
+  if(memoryNumbers.length === 0 && numbers.length !== 0 &&  addClickCount == 1){
     memoryNumbers.push(parseInt(numbers, 10));
     console.log(memoryNumbers);
     numbers = [];
@@ -103,14 +103,11 @@ function addition(e){
          y1 = Number(y);
     result = x1 + y1;
     memoryNumbers.push(result);
-    display.innerHTML = result;
+    display.innerHTML = result.toLocaleString('en');
     console.log(result);
    }
- }
-
-
-
-
+}
+ 
 function substractNumbers(e){
  e.preventDefault();
  minClickCount++;
@@ -128,7 +125,7 @@ function substractNumbers(e){
        y1 = Number(y);
   result = x1 - y1;
   memoryNumbers.push(result);
-  display.innerHTML = result;
+  display.innerHTML = result.toLocaleString('en');
   console.log(result);
  }
 }
@@ -151,7 +148,7 @@ function divideNum(e){
    let x1 = Number(x),
        y1 = Number(y);
   result = x1 / y1;
-  display.innerHTML = result.toFixed(8);
+  display.innerHTML = result.toLocaleString('en');
   console.log(result);
  }
 }
@@ -175,7 +172,7 @@ function multiplyNum(e){
        y1 = Number(y);
   result = x1 * y1;
   memoryNumbers.push(result);
-  display.innerHTML = result;
+  display.innerHTML = result.toLocaleString('en');
   console.log(result);
  }
 }
