@@ -17,6 +17,7 @@ const btnMin = document.getElementById('btn-min');
 const btnCE = document.getElementById('btn-ce');
 const display = document.getElementById('display');
 
+
 btn1.addEventListener('click', function(){displayNum(1)});
 btn2.addEventListener('click', function(){displayNum(2)});
 btn3.addEventListener('click', function(){displayNum(3)});
@@ -29,150 +30,156 @@ btn9.addEventListener('click', function(){displayNum(9)});
 btn0.addEventListener('click', function(){displayNum(0)});
 btnPoint.addEventListener('click', function(){addPoint('.')});
 btnCE.addEventListener('click', clearDisplay);
-//btnMin.addEventListener('click', SubstractNumbers);
-btnPlus.addEventListener('click', addNumbers);
-//btnMul.addEventListener('click', multiplyNum);
-//btnDiv.addEventListener('click', divideNum);
+btnMin.addEventListener('click', substractNumbers);
+btnPlus.addEventListener('click', addition);
+btnMul.addEventListener('click', multiplyNum);
+btnDiv.addEventListener('click', divideNum);
+//btnEqual.addEventListener('click', displayResult);
 
-let displayNumber = '';
+let numbers = [],
+    memoryNumbers = [],
+    x,
+    y,
+    result,
+    addClickCount = '',
+    minClickCount = '',
+    mulClickCount = '',
+    divClickCount = '';
+    previous = '';
 
 
 function displayNum(num){
-  if(displayNumber.length < 15){
-    displayNumber += num
-    saveToSessionStorage(displayNumber);
-    display.innerHTML = displayNumber;
+  if(numbers.length < 15 || numbers.charAt('.') ){
+    numbers += num
+    let newNumber = Number(numbers).toLocaleString('en');
+    display.innerHTML = newNumber;
   }
 }
+
+
 
 function addPoint(point){
-  let lastNum = displayNumber.charAt(displayNumber.length - 1);
-  if(!isNaN(lastNum) && displayNumber.indexOf(point) === -1){
-    displayNumber += point;
-    saveToSessionStorage(displayNumber);
-    display.innerHTML = displayNumber;
+  if(numbers.indexOf(point) === -1){
+    if(numbers.length === 0){
+      numbers += 0 + point;
+    }else{
+      numbers += point;
+    }
+    console.log(numbers);
+    display.innerHTML = numbers;
   }
 }
+ 
+
 
 function clearDisplay(e){
-  e.preventDefault()
-  if( display.innerHTML !== ''){
-    display.innerHTML = '';
-    displayNumber = '';
-    display.innerHTML = '0';
-    sessionStorage.clear();
-  }
-}
-
-function saveToSessionStorage(num){
-  if(sessionStorage.getItem('numbers') === null){
-    let numbers = [];
-    numbers.push(displayNumber);
-    sessionStorage.setItem('numbers', JSON.stringify(numbers));
-  }else{
-    let numbers = sessionStorage.getItem('numbers');
-    let parsedNumbers = JSON.parse(numbers);
-    parsedNumbers.push(num);
-    sessionStorage.setItem('numbers', JSON.stringify(parsedNumbers));
-  }
-}
-
-
-function addNumbers(e){
   e.preventDefault();
-  if(sessionStorage.getItem('numbers') !== null){
-    let numbers = sessionStorage.getItem('numbers');
-    let parsedNumbers = JSON.parse(numbers);
-    let firstNumber = parsedNumbers[parsedNumbers.length - 2];
-    displayNumber = '';
-    let secondNumber = displayNumber;
-    let x = Number(firstNumber);
-    let y = Number(secondNumber);
-    let resultNumber = x + y;
-    console.log(resultNumber);
-    display.innerHTML = resultNumber;   
-  }
-  if(sessionStorage.getItem('numbers') !== null){
-    let numbers = sessionStorage.getItem('numbers');
-    let parsedNumbers = JSON.parse(numbers);
-    parsedNumbers.push(resultNumber);
-    sessionStorage.setItem('numbers', JSON.stringify(parsedNumbers));
-  }
-      
+  numbers = [];
+  memoryNumbers = [];
+  addClickCount = '';
+  minClickCount = '';
+  mulClickCount = '';
+  divClickCount = '';
+  display.innerHTML = '';
+  memoryDisplay.innerHTML = '';
 }
 
-/*function SubstractNumbers(){
-  if(sessionStorage.getItem('numbers') !== null){
-    let numbers = sessionStorage.getItem('numbers');
-    let parsedNumbers = JSON.parse(numbers);
-    secondNumber = parsedNumbers[parsedNumbers.length - 1];
-    displayNumber = '';
-    firstNumber = parsedNumbers[parsedNumbers.length - 2];
-    let x = firstNumber;
-    let x1 = Number(x);
-    let y = secondNumber;
-    let y1 = Number(y);
-    x1 -= y1;
-    let resultNumber = x1;
-    console.log(resultNumber);
-  }
 
-  if(sessionStorage.getItem('numbers') !== null){
-    let numbers = sessionStorage.getItem('numbers');
-    let parsedNumbers = JSON.parse(numbers);
-    parsedNumbers.push(resultNumber);
-    sessionStorage.setItem('numbers', JSON.stringify(parsedNumbers));
-  }
-    display.innerHTML = resultNumber; 
-}*/
 
-/*function multiplyNum(){
-  if(sessionStorage.getItem('numbers') !== null){
-    let numbers = sessionStorage.getItem('numbers');
-    let parsedNumbers = JSON.parse(numbers);
-    let firstNumber = parsedNumbers[parsedNumbers.length - 1];
-    displayNumber = '';
-    let secondNumber = parsedNumbers[parsedNumbers.length - 2];
-    let x = firstNumber;
-    let x1 = Number(x);
-    let y = secondNumber;
-    let y1 = Number(y);
-    x1 *= y1;
-    let resultNumber = x1;
-    console.log(resultNumber);
-  }
+function addition(e){
+ e.preventDefault();
+  addClickCount++;
+  if(memoryNumbers.length === 0 && numbers.length !== 0 && addClickCount == 1){
+    memoryNumbers.push(parseInt(numbers, 10));
+    console.log(memoryNumbers);
+    numbers = [];
+  }else{
+    memoryNumbers.push(parseInt(numbers, 10));
+    console.log(memoryNumbers);
+    numbers = [];
+    x = memoryNumbers[memoryNumbers.length-2];
+    y = memoryNumbers[memoryNumbers.length-1];
+     let x1 = Number(x),
+         y1 = Number(y);
+    result = x1 + y1;
+    memoryNumbers.push(result);
+    display.innerHTML = result;
+    console.log(result);
+   }
+ }
 
-  if(sessionStorage.getItem('numbers') !== null){
-    let numbers = sessionStorage.getItem('numbers');
-    let parsedNumbers = JSON.parse(numbers);
-    parsedNumbers.push(resultNumber);
-    sessionStorage.setItem('numbers', JSON.stringify(parsedNumbers));
-  }
-    display.innerHTML = resultNumber;    
-}*/
 
-/*function divideNum(){
-  if(sessionStorage.getItem('numbers') !== null){
-    let numbers = sessionStorage.getItem('numbers');
-    let parsedNumbers = JSON.parse(numbers);
-    let firstNumber = parsedNumbers[parsedNumbers.length - 1];
-    displayNumber = '';
-    let secondNumber = parsedNumbers[parsedNumbers.length - 2];
-    let x = firstNumber;
-    let x1 = Number(x);
-    let y = secondNumber;
-    let y1 = Number(y);
-    let resultNumber = y1/x1
-    console.log(resultNumber);
-    display.innerHTML = resultNumber; 
-  }
 
-  if(sessionStorage.getItem('numbers') !== null){
-    let numbers = sessionStorage.getItem('numbers');
-    let parsedNumbers = JSON.parse(numbers);
-    parsedNumbers.push(resultNumber);
-    sessionStorage.setItem('numbers', JSON.stringify(parsedNumbers));
-  }
-     
-}*/
+
+function substractNumbers(e){
+ e.preventDefault();
+ minClickCount++;
+ if(memoryNumbers.length === 0 && numbers.length !== 0 &&  minClickCount == 1){
+  memoryNumbers.push(parseInt(numbers, 10));
+  console.log(memoryNumbers);
+  numbers = [];
+}else{
+  memoryNumbers.push(parseInt(numbers, 10));
+  console.log(memoryNumbers);
+  numbers = [];
+  x = memoryNumbers[memoryNumbers.length-2];
+  y = memoryNumbers[memoryNumbers.length-1];
+   let x1 = Number(x),
+       y1 = Number(y);
+  result = x1 - y1;
+  memoryNumbers.push(result);
+  display.innerHTML = result;
+  console.log(result);
+ }
+}
+
+
+
+function divideNum(e){
+ e.preventDefault();
+ divClickCount++;
+ if(memoryNumbers.length === 0 && numbers.length !== 0 &&  divClickCount == 1){
+  memoryNumbers.push(parseInt(numbers, 10));
+  console.log(memoryNumbers);
+  numbers = [];
+}else{
+  memoryNumbers.push(parseInt(numbers, 10));
+  console.log(memoryNumbers);
+  numbers = [];
+  x = memoryNumbers[memoryNumbers.length-2];
+  y = memoryNumbers[memoryNumbers.length-1];
+   let x1 = Number(x),
+       y1 = Number(y);
+  result = x1 / y1;
+  display.innerHTML = result.toFixed(8);
+  console.log(result);
+ }
+}
+
+
+
+function multiplyNum(e){
+ e.preventDefault();
+ mulClickCount++;
+ if(memoryNumbers.length === 0 && numbers.length !== 0 &&  mulClickCount == 1){
+  memoryNumbers.push(parseInt(numbers, 10));
+  console.log(memoryNumbers);
+  numbers = [];
+}else{
+  memoryNumbers.push(parseInt(numbers, 10));
+  console.log(memoryNumbers);
+  numbers = [];
+  x = memoryNumbers[memoryNumbers.length-2];
+  y = memoryNumbers[memoryNumbers.length-1];
+   let x1 = Number(x),
+       y1 = Number(y);
+  result = x1 * y1;
+  memoryNumbers.push(result);
+  display.innerHTML = result;
+  console.log(result);
+ }
+}
+
+ 
+
 
