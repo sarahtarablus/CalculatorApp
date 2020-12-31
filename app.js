@@ -89,7 +89,7 @@ function clearDisplay(e){
 function addition(e){
  e.preventDefault();
   addClickCount++;
-  switch()
+  
   if(memoryNumbers.length === 0 && numbers.length !== 0 &&  addClickCount == 1){
     memoryNumbers.push(parseInt(numbers, 10));
     console.log(memoryNumbers);

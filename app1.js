@@ -48,21 +48,30 @@ let result = null;
 
 function getFirstNumber(number){
   firstNumber === null ? (firstNumber = number) : (firstNumber += number);
-  console.log(firstNumber);
+  
 }
 
 function getSecondNumber(number){
-  secondNumber === null ? (secondNumber = number) : (secondNumber += number);
-  //console.log(secondNumber);
-}
+  secondNumber === null ? (secondNumber = number) : (secondNumber += number);    
+  
+  }
+
+function addPoint(point){
+   !firstNumber.includes('.') ? (firstNumber += point) : firstNumber = '';
+    
+  }
+   
+
 
 function storeValues(number){
   if(operator === null){
     getFirstNumber(number);
     displayNumber(number);
+    console.log(number);
   }else{
     getSecondNumber(number);
     displayNumber(number);
+    console.log(number);
   }
 }
 
@@ -73,35 +82,24 @@ function displayNumber(number){
 function calculate(firstNumber, secondNumber){
   switch(operator){
    case operator = '+':
-     result = firstNumber + secondNumber
-     display.textContent = result
-     firstNumber = result
-     //secondNumber = null
-     break;
+    display.textContent = firstNumber + secondNumber
+    break;
    case operator = '-':
-     result = firstNumber - secondNumber
-     display.textContent = result
-     firstNumber = result
-     //secondNumber = null
-     break;
+    display.textContent = firstNumber - secondNumber
+    break;
    case operator = 'x':
-    result = firstNumber * secondNumber
-    display.textContent = result
-    firstNumber = result
-    //secondNumber = null
-     break;
+    display.textContent = firstNumber * secondNumber
+    break;
    case operator  = '÷':
-    result = firstNumber / secondNumber
-    display.textContent = result
-    firstNumber = result
-    //secondNumber = null
-     break;
-    default: alert('this is not a number');
+    display.textContent = firstNumber / secondNumber
+    break;
+   default: alert('this is not a number');
   }
 }
 
 function clearDisplay(){
   display.textContent = '';
-  //firstNumber = null;
-  //secondNumber = null;
+  firstNumber = null;
+  secondNumber = null;
+  operator = null;
 }
