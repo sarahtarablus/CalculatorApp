@@ -18,18 +18,80 @@ const btnCE = document.getElementById('btn-ce');
 const display = document.getElementById('display');
 
 
-btn1.addEventListener('click', () => {storeValues(1)});
-btn2.addEventListener('click', () => {storeValues(2)});
-btn3.addEventListener('click', () => {storeValues(3)});
-btn4.addEventListener('click', () => {storeValues(4)});
-btn5.addEventListener('click', () => {storeValues(5)});
-btn6.addEventListener('click', () => {storeValues(6)});
-btn7.addEventListener('click', () => {storeValues(7)});
-btn8.addEventListener('click', () => {storeValues(8)});
-btn9.addEventListener('click', () => {storeValues(9)});
-btn0.addEventListener('click', () => {storeValues(0)});
-btnPoint.addEventListener('click', function(){addPoint('.')});
-btnCE.addEventListener('click', clearDisplay);
+
+
+let firstNumber = null;
+let operator = null;
+let secondNumber = null;
+let result = null;
+let numbers = [];
+
+
+
+const getFirstNumber = (number) => {
+  firstNumber === null ? (firstNumber = number) : (firstNumber += number)
+  console.log(firstNumber);
+}
+
+
+const getSecondNumber = (number) => {
+  secondNumber === null ? (secondNumber = number) : (secondNumber += number);
+  console.log(secondNumber);
+}
+
+const displayNumber = (number) => {
+  if(numbers.length < 12){
+    numbers.push(number);
+    display.textContent = numbers.join('');
+ }
+}
+
+btn1.addEventListener('click', () => {storeValues("" + 1)});
+btn2.addEventListener('click', () => {storeValues("" + 2)});
+btn3.addEventListener('click', () => {storeValues("" + 3)});
+btn4.addEventListener('click', () => {storeValues("" + 4)});
+btn5.addEventListener('click', () => {storeValues("" + 5)});
+btn6.addEventListener('click', () => {storeValues("" + 6)});
+btn7.addEventListener('click', () => {storeValues("" + 7)});
+btn8.addEventListener('click', () => {storeValues("" + 8)});
+btn9.addEventListener('click', () => {storeValues("" + 9)});
+btn0.addEventListener('click', () => {storeValues("" + 0)});
+btnPoint.addEventListener('click',() => {storeValues("" + '.')});
+
+//tranform the result of the getFirst and getSecond into arrays.
+//JavaScript doesn't return multiple elements from a function.¡
+
+const storeValues = (number) => {
+  if(operator === null){
+    getFirstNumber(number);
+    displayNumber(number); 
+    console.log(number);
+  }else {
+    getSecondNumber(number);
+    displayNumber(number);
+    console.log(number);
+  }
+}
+
+
+const calculate = (firstNumber, secondNumber) => {
+  switch(operator){
+   case operator = '+':
+    display.textContent = Number(firstNumber) + Number(secondNumber)
+    break;
+   case operator = '-':
+    display.textContent = Number(firstNumber) - Number(secondNumber)
+    break;
+   case operator = 'x':
+    display.textContent = Number(firstNumber) * Number(secondNumber)
+    break;
+   case operator  = '÷':
+    display.textContent = Number(firstNumber) / Number(secondNumber)
+    break;
+   default: alert('this is not a number');
+  }
+}
+
 btnMin.addEventListener('click', (e) => {operator = e.target.textContent; //console.log('target: ', operator)
 });
 btnPlus.addEventListener('click', (e) => {operator = e.target.textContent; //console.log('target: ', operator)
@@ -40,66 +102,13 @@ btnDiv.addEventListener('click', (e) => {operator = e.target.textContent; //cons
 });
 btnEqual.addEventListener('click', (e) => {calculate(firstNumber, secondNumber)});
 
-let firstNumber = null;
-let operator = null;
-let secondNumber = null;
-let result = null;
 
-
-function getFirstNumber(number){
-  firstNumber === null ? (firstNumber = number) : (firstNumber += number);
-  
-}
-
-function getSecondNumber(number){
-  secondNumber === null ? (secondNumber = number) : (secondNumber += number);    
-  
-  }
-
-function addPoint(point){
-   !firstNumber.includes('.') ? (firstNumber += point) : firstNumber = '';
-    
-  }
-   
-
-
-function storeValues(number){
-  if(operator === null){
-    getFirstNumber(number);
-    displayNumber(number);
-    console.log(number);
-  }else{
-    getSecondNumber(number);
-    displayNumber(number);
-    console.log(number);
-  }
-}
-
-function displayNumber(number){
-  display.textContent = number;
-}
-
-function calculate(firstNumber, secondNumber){
-  switch(operator){
-   case operator = '+':
-    display.textContent = firstNumber + secondNumber
-    break;
-   case operator = '-':
-    display.textContent = firstNumber - secondNumber
-    break;
-   case operator = 'x':
-    display.textContent = firstNumber * secondNumber
-    break;
-   case operator  = '÷':
-    display.textContent = firstNumber / secondNumber
-    break;
-   default: alert('this is not a number');
-  }
-}
-
-function clearDisplay(){
+const clearDisplay = () => {
   display.textContent = '';
+  numbers = [];
   firstNumber = null;
   secondNumber = null;
   operator = null;
 }
+
+btnCE.addEventListener('click', clearDisplay);

@@ -49,7 +49,7 @@ let numbers = [],
 
 
 function displayNum(num){
-  if(numbers.length < 15 || numbers.charAt('.') ){
+  if(numbers.length < 15){
     numbers += num
     let newNumber = Number(numbers).toLocaleString('en');
     display.innerHTML = newNumber;
