@@ -30,26 +30,20 @@ let result = null;
 
 
 const getFirstNumber = (number) => {
-  firstNumber === null ? (firstNumber = number.toString()) : (firstNumber += number.toString());
+ firstNumber === null ? (firstNumber = number.toString()) : (firstNumber += number.toString());
   //console.log(firstNumber);
 }
 
 
 const getSecondNumber = (number) => {
-  secondNumber === null ? (secondNumber = number.toString()) : (secondNumber += number.toString());
+ secondNumber === null ? (secondNumber = number.toString()) : (secondNumber += number.toString());
   //console.log(secondNumber);
 }
 
 const displayNumber = (number) => {
-       //make the first number go away from the screen and set the result as first number 
-       //numbers.push(number.toString());
-      if(operator === '+' || operator === '-' || operator === 'x' || operator === '÷'){
-        numbers.splice(-3);
-      }
-      numbers.push(number.toString());
-    display.textContent = numbers.join('');
+  numbers.push(number.toString());
+  display.textContent = numbers.join('');
 }
-
 
 btn1.addEventListener('click', () => {storeValues(1)});
 btn2.addEventListener('click', () => {storeValues(2)});
@@ -66,46 +60,78 @@ btnPoint.addEventListener('click',() => {storeValues('.')});
 //tranform the result of the getFirst and getSecond into arrays.
 //JavaScript doesn't return multiple elements from a function.¡
 
+
+
+
 const storeValues = (number) => {
   if(operator === null){
     getFirstNumber(number);
     displayNumber(number); 
-    console.log(number);
+    //console.log(number);
   }else {
     getSecondNumber(number);
     displayNumber(number);
-    console.log(number);
+    //console.log(number);
   }
 }
 
 
-const assignResultToFirstNumber = () => {
-  if(resultCount > 1){
-    firstNumber = result;
-  }
-}
+
 
 
 const calculate = (firstNumber, secondNumber) => {
   switch(operator){
    case operator = '+':
      result =  Number(firstNumber) + Number(secondNumber)
-     display.textContent = result;
-     resultCount ++
-     assignResultToFirstNumber();
+     display.textContent = Number(result);
+     //resultCount ++;
+     console.log(result);
     break;
    case operator = '-':
-    display.textContent = Number(firstNumber) - Number(secondNumber)
+    display.textContent =  Number(firstNumber) - Number(secondNumber)
+    //result = Number(firstNumber) + Number(secondNumber);
+     resultCount ++;
+     console.log(secondNumber);
     break;
    case operator = 'x':
-    display.textContent = Number(firstNumber) * Number(secondNumber)
+    display.textContent =  Number(firstNumber) * Number(secondNumber)
+    //result = Number(firstNumber) + Number(secondNumber);
+     resultCount ++;
+     console.log(secondNumber);
     break;
    case operator  = '÷':
-    display.textContent = Number(firstNumber) / Number(secondNumber)
+    display.textContent=  Number(firstNumber) / Number(secondNumber)
+    //result = Number(firstNumber) + Number(secondNumber);
+     resultCount ++;
+     console.log(secondNumber);
     break;
    default: alert('this is not a number');
   }
 }
+
+/*const getResult = () => {
+  if(operator === '+'){
+    result = Number(firstNumber) + Number(secondNumber)
+  }else if(operator === '-'){
+    result = Number(firstNumber) - Number(secondNumber)
+  }else if(operator === 'x'){
+    result = Number(firstNumber) * Number(secondNumber)
+  }else if(operator === '÷'){
+    result = Number(firstNumber) / Number(secondNumber)
+  }
+}
+
+const setResultAsSecondNumber = () => {
+  if()
+}
+
+/*const assignResultToSecondNumber = () => {
+  if(result !== null){
+    secondNumber = result;
+    calculate(firstNumber, secondNumber);
+  }
+}*/
+
 
 btnMin.addEventListener('click', (e) => {operator = e.target.textContent; //console.log('target: ', operator)
 });
@@ -119,7 +145,7 @@ btnEqual.addEventListener('click', (e) => {calculate(firstNumber, secondNumber)}
 
 
 const clearDisplay = () => {
-  display.textContent = '';
+  display.textContent = 0;
   firstNumber = null;
   secondNumber = null;
   operator = null;
