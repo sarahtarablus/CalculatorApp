@@ -72,7 +72,7 @@ btn7.addEventListener('click', () => {storeValues(7)});
 btn8.addEventListener('click', () => {storeValues(8)});
 btn9.addEventListener('click', () => {storeValues(9)});
 btn0.addEventListener('click', () => {storeValues(0)});
-btnPoint.addEventListener('click',() => {storeValues('.')});
+btnPoint.addEventListener('click',() => {addPoint('.')});
 
 //tranform the result of the getFirst and getSecond into arrays.
 //JavaScript doesn't return multiple elements from a function.¡
@@ -88,6 +88,39 @@ const storeValues = (number) => {
   //console.log(operator)
 }
 
+const addPointToFirstNumber = (number) => {
+  if(firstNumber === null){
+    firstNumber += 0 + number
+  }else if(firstNumber !== null && firstNumber.toString().charAt('.') !== -1){
+    firstNumber != number
+  }else{
+    firstNumber += number;
+  }
+}
+
+
+
+const addPointToSecondNumber = (number) => {
+  if(secondNumber.toString().charAt('.') >= 0){
+    secondNumber != number 
+  }else if(secondNumber === null){
+    secondNumber = 0 + number
+  }else{t
+    secondNumber += number
+  }
+}
+
+
+
+const addPoint = (number) => {
+  if(operator === null ){
+    addPointToFirstNumber(number)
+    displayNumber(number);
+  }else {
+    addPointToSecondNumber(number)
+    displayNumber(number);
+  }
+}
 //secondNumber is not equal to null therefore after result the secondNumber adds to the existing secondNumber
 
 const calculate = (firstNumber, secondNumber) => {
@@ -95,6 +128,7 @@ const calculate = (firstNumber, secondNumber) => {
    case operator = '+':
      //if(result.length === 0){
     display.textContent =  Number(firstNumber) + Number(secondNumber)
+    numbers.length = [];
     console.log(secondNumber);
     
     
