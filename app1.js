@@ -23,6 +23,7 @@ let secondNumber = [];
 let result = null;
 
 
+
 const getFirstNumber = (number) => {
   if(firstNumber.length < 10){
     firstNumber += number;
@@ -35,50 +36,6 @@ const getSecondNumber = (number) => {
   }
 }
 
-const substituteResultWithFirstNumber = () => {
-  if(result !== null){
-    firstNumber = result;
-    secondNumber = [];
-  }
-}
-
-const substituteFirstNumberWithResultInMultiplication = () => {
-  if(x > 0){
-    firstNumber = x;
-    secondNumber = [];
-  }
-}
-
-const substituteFirstNumberWithResultInDivision = () => {
-  if(x !== Infinity){
-    firstNumber = x.toFixed(3);
-    secondNumber = [];
-  }
-}
-
-const calculate = () => {
-  if(operator === '+'){
-    result = Number(firstNumber) + Number(secondNumber)
-    display.textContent = firstNumber
-    substituteResultWithFirstNumber();
-  }else if(operator === '-'){
-    result = Number(firstNumber) - Number(secondNumber)
-    display.textContent = firstNumber
-    substituteResultWithFirstNumber();  
-  }else if(operator === 'x'){
-    result = firstNumber;
-     x = Number(firstNumber) * Number(secondNumber)
-    display.textContent = firstNumber;
-    substituteFirstNumberWithResultInMultiplication();
-  }else if(operator === '÷'){
-    result = firstNumber;
-     x = Number(firstNumber) / Number(secondNumber)
-    display.textContent = firstNumber;
-    substituteFirstNumberWithResultInDivision(); 
-  } 
-}
-
-
 const storeValues = (number) => {
   if(operator === null){
     getFirstNumber(number);
@@ -87,10 +44,72 @@ const storeValues = (number) => {
     getSecondNumber(number);
     display.textContent = secondNumber;   
   }
-  calculate(); 
+  //calculate(); 
   console.log('firstNumber:' + firstNumber);
   console.log('secondNumber:' + secondNumber);
   console.log('operator:'+ operator)
+}
+
+/*const addPoint = (num) => {
+  if(operator === null){
+   if(firstNumber.indexOf('.') === -1){
+    if(firstNumber.length < 0){
+      firstNumber += 0 + num 
+    }else{
+      firstNumber += num
+    }
+  } 
+  }
+     
+  
+    
+  
+ // if(secondNumber.indexOf('.') === -1){
+    //secondNumber += point;
+  //}
+}*/
+
+const substituteResultWithFirstNumber = () => {
+  if(result !== null){
+    firstNumber = result;
+    secondNumber = [];
+  }
+}
+
+const substituteFirstNumberWithResultInMultiplication = () => {
+  if(result > 0){
+    firstNumber = result;
+    secondNumber = [];
+  }
+}
+
+const substituteFirstNumberWithResultInDivision = () => {
+  if(result !== Infinity){
+    firstNumber = result.toFixed(3);
+    secondNumber = [];
+  }
+}
+
+const calculate = () => {
+  
+  if(operator === '+'){ 
+    result = Number(firstNumber) + Number(secondNumber)
+    display.textContent = result
+    substituteResultWithFirstNumber();
+    console.log(result)
+  }else if(operator === '-'&& firstNumber!== 0 && secondNumber !== 0){
+    result = Number(firstNumber) - Number(secondNumber)
+    display.textContent = result
+    substituteResultWithFirstNumber();  
+  }else if(operator === 'x'){
+    result = Number(firstNumber) * Number(secondNumber)
+    display.textContent = result;
+    substituteFirstNumberWithResultInMultiplication();
+  }else if(operator === '÷'){
+     result = Number(firstNumber) / Number(secondNumber)
+     display.textContent = result;
+     substituteFirstNumberWithResultInDivision(); 
+  } 
 }
 
 
@@ -105,13 +124,15 @@ btn8.addEventListener('click', () => {storeValues(8)});
 btn9.addEventListener('click', () => {storeValues(9)});
 btn0.addEventListener('click', () => {storeValues(0)});
 btnPoint.addEventListener('click',() => {addPoint('.')});
-btnMin.addEventListener('click', (e) => {operator = e.target.textContent; calculate()
+btnMin.addEventListener('click', (e) => {operator = e.target.textContent;
+  calculate()
 });
 btnPlus.addEventListener('click', (e) => {operator = e.target.textContent; calculate()
 });
 btnMul.addEventListener('click', (e) => {operator = e.target.textContent; calculate()
 });
-btnDiv.addEventListener('click', (e) => {operator = e.target.textContent; calculate()
+btnDiv.addEventListener('click', (e) => {operator = e.target.textContent; 
+calculate()
 });
 btnEqual.addEventListener('click', () => {calculate()});
 
@@ -123,6 +144,7 @@ const clearDisplay = () => {
   secondNumber = [];
   operator = null;
   result = null; 
+  
 }
 
 btnCE.addEventListener('click', clearDisplay);
