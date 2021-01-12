@@ -16,11 +16,15 @@ const btnPlus = document.getElementById('btn-plus');
 const btnMin = document.getElementById('btn-min');
 const btnCE = document.getElementById('btn-ce');
 const display = document.getElementById('display');
+const memorizeResultBtn = document.getElementById('btn-M+');
+const removeSavedResultsBtn = document.getElementById('btn-M-');
+const showLastMemorizedResultBtn = document.getElementById('btn-MR');
 
 let firstNumber = [];
 let operator = null;
 let secondNumber = [];
 let result = null;
+let storedOperationResults = [];
 
 
 
@@ -49,7 +53,7 @@ const addDecimals = (point) => {
   }
 }
 
-const storeValues = (number) => {
+const storeFirstNumberAndSecondNumber = (number) => {
   if(operator === null){
     getFirstNumber(number);
     display.textContent = firstNumber; 
@@ -57,86 +61,54 @@ const storeValues = (number) => {
     getSecondNumber(number);
     display.textContent = secondNumber;  
   }
-  console.log('firstNumber:' + firstNumber);
-  console.log('operator:'+ operator)
-  console.log('secondNumber:' + secondNumber); 
+}
+
+const substituteResultWithFirstNumber = () => {
+  firstNumber = result.toFixed(3);
+  secondNumber = [];
 }
 
 const substituteResultWithFirstNumberInAdditionAndSubstraction = () => {
   if(result !== null){
-    firstNumber = result.toFixed(3);
-    secondNumber = [];
+    substituteResultWithFirstNumber()
   }
 }
 
 const substituteResultWithFirstNumberInMultiplication = () => {
   if(result > 0){
-    firstNumber = result.toFixed(3);
-    secondNumber = [];
+    substituteResultWithFirstNumber()
   }
 }
 
 const substituteResultWithFirstNumberInDivision = () => {
   if(result !== Infinity){
-    firstNumber = result.toFixed(3);
-    secondNumber = [];
+    substituteResultWithFirstNumber()
   }
 }
 
 const displayResult = () => {
-  if(Number.isInteger(result)){
-    display.textContent = result;
-  }else{
-    display.textContent = Number(result).toFixed(3);
-  }   
+  Number.isInteger(result) ? display.textContent = result : display.textContent = Number(result).toFixed(3)
 }
 
 const calculate = () => {
-    if(operator === '+'){ 
-      result = Number(firstNumber) + Number(secondNumber)
-      displayResult();
-      substituteResultWithFirstNumberInAdditionAndSubstraction();
-      console.log(result)
-    }else if(operator === '-'){
-      result = Number(firstNumber) - Number(secondNumber)
-      displayResult();
-      substituteResultWithFirstNumberInAdditionAndSubstraction();  
-    }else if(operator === 'x'){
-      result = Number(firstNumber) * Number(secondNumber)
-      displayResult();
-      substituteResultWithFirstNumberInMultiplication();
-    }else if(operator === '÷'){
-      result = Number(firstNumber) / Number(secondNumber)
-      displayResult();
-      substituteResultWithFirstNumberInDivision (); 
-    } 
+  if(operator === '+'){ 
+    result = Number(firstNumber) + Number(secondNumber);
+    displayResult();
+    substituteResultWithFirstNumberInAdditionAndSubstraction();
+  }else if(operator === '-'){
+    result = Number(firstNumber) - Number(secondNumber);
+    displayResult();
+    substituteResultWithFirstNumberInAdditionAndSubstraction();  
+  }else if(operator === 'x'){
+    result = Number(firstNumber) * Number(secondNumber);
+    displayResult();
+    substituteResultWithFirstNumberInMultiplication();
+  }else if(operator === '÷'){
+    result = Number(firstNumber) / Number(secondNumber);
+    displayResult();
+    substituteResultWithFirstNumberInDivision(); 
+  } 
 }
-
-btn1.addEventListener('click', () => {storeValues(1)});
-btn2.addEventListener('click', () => {storeValues(2)});
-btn3.addEventListener('click', () => {storeValues(3)});
-btn4.addEventListener('click', () => {storeValues(4)});
-btn5.addEventListener('click', () => {storeValues(5)});
-btn6.addEventListener('click', () => {storeValues(6)});
-btn7.addEventListener('click', () => {storeValues(7)});
-btn8.addEventListener('click', () => {storeValues(8)});
-btn9.addEventListener('click', () => {storeValues(9)});
-btn0.addEventListener('click', () => {storeValues(0)});
-btnPoint.addEventListener('click',() => {addDecimals('.')});
-btnMin.addEventListener('click', (e) => {operator = e.target.textContent;
-calculate()
-});
-btnPlus.addEventListener('click', (e) => {operator = e.target.textContent;
-calculate()
-});
-btnMul.addEventListener('click', (e) => {operator = e.target.textContent; calculate()
-});
-btnDiv.addEventListener('click', (e) => {operator = e.target.textContent; 
-calculate()
-});
-btnEqual.addEventListener('click', () => {calculate()});
-
-
 
 const clearDisplay = () => {
   display.textContent = 0;
@@ -144,7 +116,52 @@ const clearDisplay = () => {
   secondNumber = [];
   operator = null;
   result = null; 
-  
 }
 
+const getLastStoredOperationResult = () => {  
+  storedOperationResults = JSON.parse(localStorage.getItem('storedOperationResults')) || [];
+  return storedOperationResults;
+}   
+ 
+const storeOperationResult = () => {
+   if(result !== null){
+   const storedOperationResults = getLastStoredOperationResult();
+   storedOperationResults.push(result)
+   localStorage.setItem('storedOperationResults', JSON.stringify(storedOperationResults));
+ }
+}
+
+const showLastMemorizedResult = () => {
+  const storedOperationResults = getLastStoredOperationResult();
+  display.textContent = storedOperationResults[storedOperationResults.length -1];
+}
+
+const removeSavedResults = () => {
+  localStorage.clear();
+}
+
+
+btn1.addEventListener('click', () => {storeFirstNumberAndSecondNumber(1)});
+btn2.addEventListener('click', () => {storeFirstNumberAndSecondNumber(2)});
+btn3.addEventListener('click', () => {storeFirstNumberAndSecondNumber(3)});
+btn4.addEventListener('click', () => {storeFirstNumberAndSecondNumber(4)});
+btn5.addEventListener('click', () => {storeFirstNumberAndSecondNumber(5)});
+btn6.addEventListener('click', () => {storeFirstNumberAndSecondNumber(6)});
+btn7.addEventListener('click', () => {storeFirstNumberAndSecondNumber(7)});
+btn8.addEventListener('click', () => {storeFirstNumberAndSecondNumber(8)});
+btn9.addEventListener('click', () => {storeFirstNumberAndSecondNumber(9)});
+btn0.addEventListener('click', () => {storeFirstNumberAndSecondNumber(0)});
+btnPoint.addEventListener('click',() => {addDecimals('.')});
+btnMin.addEventListener('click',(e) => {calculate(), operator = e.target.textContent; 
+});
+btnPlus.addEventListener('click',(e) => {calculate(),operator = e.target.textContent; 
+});
+btnMul.addEventListener('click', (e) => {calculate(),operator = e.target.textContent; 
+});
+btnDiv.addEventListener('click', (e) => {calculate(), operator = e.target.textContent; 
+});
+btnEqual.addEventListener('click', () => {calculate()});
+memorizeResultBtn.addEventListener('click', storeOperationResult);
+showLastMemorizedResultBtn.addEventListener('click', showLastMemorizedResult);
+removeSavedResultsBtn.addEventListener('click',removeSavedResults);
 btnCE.addEventListener('click', clearDisplay);
