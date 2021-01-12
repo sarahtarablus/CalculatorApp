@@ -24,6 +24,7 @@ let result = null;
 
 
 
+
 const getFirstNumber = (number) => {
   if(firstNumber.length < 10){
     firstNumber += number;
@@ -36,82 +37,80 @@ const getSecondNumber = (number) => {
   }
 }
 
+/*const addDecimals = (point) => {
+  if(operator === null){
+    if(firstNumber.indexOf('.') === -1){
+     firstNumber += point
+    }
+  }else{
+    if(secondNumber.indexOf('.') === -1){
+      secondNumber += point
+    } 
+  }
+}*/
+
 const storeValues = (number) => {
   if(operator === null){
     getFirstNumber(number);
-    display.textContent = firstNumber;
+    display.textContent = firstNumber; 
   }else{
     getSecondNumber(number);
-    display.textContent = secondNumber;   
+    display.textContent = secondNumber;  
   }
-  //calculate(); 
   console.log('firstNumber:' + firstNumber);
-  console.log('secondNumber:' + secondNumber);
   console.log('operator:'+ operator)
+  console.log('secondNumber:' + secondNumber); 
 }
 
-/*const addPoint = (num) => {
-  if(operator === null){
-   if(firstNumber.indexOf('.') === -1){
-    if(firstNumber.length < 0){
-      firstNumber += 0 + num 
-    }else{
-      firstNumber += num
-    }
-  } 
-  }
-     
-  
-    
-  
- // if(secondNumber.indexOf('.') === -1){
-    //secondNumber += point;
-  //}
-}*/
-
-const substituteResultWithFirstNumber = () => {
+const substituteResultWithFirstNumberInAdditionAndSubstraction = () => {
   if(result !== null){
-    firstNumber = result;
+    firstNumber = result.toFixed(3);
     secondNumber = [];
   }
 }
 
-const substituteFirstNumberWithResultInMultiplication = () => {
+const substituteResultWithFirstNumberInMultiplication = () => {
   if(result > 0){
-    firstNumber = result;
+    firstNumber = result.toFixed(3);
     secondNumber = [];
   }
 }
 
-const substituteFirstNumberWithResultInDivision = () => {
+const substituteResultWithFirstNumberInDivision = () => {
   if(result !== Infinity){
     firstNumber = result.toFixed(3);
     secondNumber = [];
   }
 }
 
-const calculate = () => {
-  
-  if(operator === '+'){ 
-    result = Number(firstNumber) + Number(secondNumber)
-    display.textContent = result
-    substituteResultWithFirstNumber();
-    console.log(result)
-  }else if(operator === '-'&& firstNumber!== 0 && secondNumber !== 0){
-    result = Number(firstNumber) - Number(secondNumber)
-    display.textContent = result
-    substituteResultWithFirstNumber();  
-  }else if(operator === 'x'){
-    result = Number(firstNumber) * Number(secondNumber)
+const displayResult = () => {
+  if(Number.isInteger(result)){
     display.textContent = result;
-    substituteFirstNumberWithResultInMultiplication();
-  }else if(operator === '÷'){
-     result = Number(firstNumber) / Number(secondNumber)
-     display.textContent = result;
-     substituteFirstNumberWithResultInDivision(); 
-  } 
+  }else{
+    display.textContent = Number(result).toFixed(3);
+  }   
 }
 
+const calculate = () => {
+    if(operator === '+'){ 
+      result = Number(firstNumber) + Number(secondNumber)
+      displayResult();
+      substituteResultWithFirstNumberInAdditionAndSubstraction();
+      console.log(result)
+    }else if(operator === '-'){
+      result = Number(firstNumber) - Number(secondNumber)
+      displayResult();
+      substituteResultWithFirstNumberInAdditionAndSubstraction();  
+    }else if(operator === 'x'){
+      result = Number(firstNumber) * Number(secondNumber)
+      displayResult();
+      substituteResultWithFirstNumberInMultiplication();
+    }else if(operator === '÷'){
+      result = Number(firstNumber) / Number(secondNumber)
+      displayResult();
+      substituteResultWithFirstNumberInDivision (); 
+    } 
+}
 
 btn1.addEventListener('click', () => {storeValues(1)});
 btn2.addEventListener('click', () => {storeValues(2)});
@@ -123,11 +122,12 @@ btn7.addEventListener('click', () => {storeValues(7)});
 btn8.addEventListener('click', () => {storeValues(8)});
 btn9.addEventListener('click', () => {storeValues(9)});
 btn0.addEventListener('click', () => {storeValues(0)});
-btnPoint.addEventListener('click',() => {addPoint('.')});
+btnPoint.addEventListener('click',() => {addDecimals('.')});
 btnMin.addEventListener('click', (e) => {operator = e.target.textContent;
-  calculate()
+calculate()
 });
-btnPlus.addEventListener('click', (e) => {operator = e.target.textContent; calculate()
+btnPlus.addEventListener('click', (e) => {operator = e.target.textContent;
+calculate()
 });
 btnMul.addEventListener('click', (e) => {operator = e.target.textContent; calculate()
 });
