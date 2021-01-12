@@ -17,167 +17,134 @@ const btnMin = document.getElementById('btn-min');
 const btnCE = document.getElementById('btn-ce');
 const display = document.getElementById('display');
 
-
-btn1.addEventListener('click', function(){displayNum(1)});
-btn2.addEventListener('click', function(){displayNum(2)});
-btn3.addEventListener('click', function(){displayNum(3)});
-btn4.addEventListener('click', function(){displayNum(4)});
-btn5.addEventListener('click', function(){displayNum(5)});
-btn6.addEventListener('click', function(){displayNum(6)});
-btn7.addEventListener('click', function(){displayNum(7)});
-btn8.addEventListener('click', function(){displayNum(8)});
-btn9.addEventListener('click', function(){displayNum(9)});
-btn0.addEventListener('click', function(){displayNum(0)});
-btnPoint.addEventListener('click', function(){addPoint('.')});
-btnCE.addEventListener('click', clearDisplay);
-btnMin.addEventListener('click', substractNumbers);
-btnPlus.addEventListener('click', addition);
-btnMul.addEventListener('click', multiplyNum);
-btnDiv.addEventListener('click', divideNum);
-//btnEqual.addEventListener('click', displayResult);
-
-let numbers = [],
-    memoryNumbers = [],
-    x,
-    y,
-    result,
-    addClickCount = '',
-    minClickCount = '',
-    mulClickCount = '',
-    divClickCount = '';
-    previous = '';
+let firstNumber = [];
+let operator = null;
+let secondNumber = [];
+let result = null;
 
 
-function displayNum(num){
-  if(numbers.length < 15){
-    numbers += num
-    let newNumber = Number(numbers).toLocaleString('en');
-    display.innerHTML = newNumber;
+
+
+const getFirstNumber = (number) => {
+  if(firstNumber.length < 10){
+    firstNumber += number;
   }
 }
 
+const getSecondNumber = (number) => {
+  if(secondNumber.length < 10){
+     secondNumber += number;
+  }
+}
 
-
-function addPoint(point){
-  if(numbers.indexOf(point) === -1){
-    if(numbers.length === 0){
-      numbers += 0 + point;
-    }else{
-      numbers += point;
+const addDecimals = (point) => {
+  if(operator === null){
+    if(firstNumber.indexOf('.') === -1){
+     firstNumber += point
     }
-    console.log(numbers);
-    display.innerHTML = numbers;
+  }else{
+    if(secondNumber.indexOf('.') === -1){
+      secondNumber += point
+    } 
   }
 }
- 
 
-
-function clearDisplay(e){
-  e.preventDefault();
-  numbers = [];
-  memoryNumbers = [];
-  addClickCount = '';
-  minClickCount = '';
-  mulClickCount = '';
-  divClickCount = '';
-  display.innerHTML = '';
- 
-}
-
-
-
-function addition(e){
- e.preventDefault();
-  addClickCount++;
-  
-  if(memoryNumbers.length === 0 && numbers.length !== 0 &&  addClickCount == 1){
-    memoryNumbers.push(parseInt(numbers, 10));
-    console.log(memoryNumbers);
-    numbers = [];
+const storeValues = (number) => {
+  if(operator === null){
+    getFirstNumber(number);
+    display.textContent = firstNumber; 
   }else{
-    memoryNumbers.push(parseInt(numbers, 10));
-    console.log(memoryNumbers);
-    numbers = [];
-    x = memoryNumbers[memoryNumbers.length-2];
-    y = memoryNumbers[memoryNumbers.length-1];
-     let x1 = Number(x),
-         y1 = Number(y);
-    result = x1 + y1;
-    memoryNumbers.push(result);
-    display.innerHTML = result.toLocaleString('en');
-    console.log(result);
-   }
-}
- 
-function substractNumbers(e){
- e.preventDefault();
- minClickCount++;
- if(memoryNumbers.length === 0 && numbers.length !== 0 &&  minClickCount == 1){
-  memoryNumbers.push(parseInt(numbers, 10));
-  console.log(memoryNumbers);
-  numbers = [];
-}else{
-  memoryNumbers.push(parseInt(numbers, 10));
-  console.log(memoryNumbers);
-  numbers = [];
-  x = memoryNumbers[memoryNumbers.length-2];
-  y = memoryNumbers[memoryNumbers.length-1];
-   let x1 = Number(x),
-       y1 = Number(y);
-  result = x1 - y1;
-  memoryNumbers.push(result);
-  display.innerHTML = result.toLocaleString('en');
-  console.log(result);
- }
+    getSecondNumber(number);
+    display.textContent = secondNumber;  
+  }
+  console.log('firstNumber:' + firstNumber);
+  console.log('operator:'+ operator)
+  console.log('secondNumber:' + secondNumber); 
 }
 
-
-
-function divideNum(e){
- e.preventDefault();
- divClickCount++;
- if(memoryNumbers.length === 0 && numbers.length !== 0 &&  divClickCount == 1){
-  memoryNumbers.push(parseInt(numbers, 10));
-  console.log(memoryNumbers);
-  numbers = [];
-}else{
-  memoryNumbers.push(parseInt(numbers, 10));
-  console.log(memoryNumbers);
-  numbers = [];
-  x = memoryNumbers[memoryNumbers.length-2];
-  y = memoryNumbers[memoryNumbers.length-1];
-   let x1 = Number(x),
-       y1 = Number(y);
-  result = x1 / y1;
-  display.innerHTML = result.toLocaleString('en');
-  console.log(result);
- }
+const substituteResultWithFirstNumberInAdditionAndSubstraction = () => {
+  if(result !== null){
+    firstNumber = result.toFixed(3);
+    secondNumber = [];
+  }
 }
 
-
-
-function multiplyNum(e){
- e.preventDefault();
- mulClickCount++;
- if(memoryNumbers.length === 0 && numbers.length !== 0 &&  mulClickCount == 1){
-  memoryNumbers.push(parseInt(numbers, 10));
-  console.log(memoryNumbers);
-  numbers = [];
-}else{
-  memoryNumbers.push(parseInt(numbers, 10));
-  console.log(memoryNumbers);
-  numbers = [];
-  x = memoryNumbers[memoryNumbers.length-2];
-  y = memoryNumbers[memoryNumbers.length-1];
-   let x1 = Number(x),
-       y1 = Number(y);
-  result = x1 * y1;
-  memoryNumbers.push(result);
-  display.innerHTML = result.toLocaleString('en');
-  console.log(result);
- }
+const substituteResultWithFirstNumberInMultiplication = () => {
+  if(result > 0){
+    firstNumber = result.toFixed(3);
+    secondNumber = [];
+  }
 }
 
- 
+const substituteResultWithFirstNumberInDivision = () => {
+  if(result !== Infinity){
+    firstNumber = result.toFixed(3);
+    secondNumber = [];
+  }
+}
+
+const displayResult = () => {
+  if(Number.isInteger(result)){
+    display.textContent = result;
+  }else{
+    display.textContent = Number(result).toFixed(3);
+  }   
+}
+
+const calculate = () => {
+    if(operator === '+'){ 
+      result = Number(firstNumber) + Number(secondNumber)
+      displayResult();
+      substituteResultWithFirstNumberInAdditionAndSubstraction();
+      console.log(result)
+    }else if(operator === '-'){
+      result = Number(firstNumber) - Number(secondNumber)
+      displayResult();
+      substituteResultWithFirstNumberInAdditionAndSubstraction();  
+    }else if(operator === 'x'){
+      result = Number(firstNumber) * Number(secondNumber)
+      displayResult();
+      substituteResultWithFirstNumberInMultiplication();
+    }else if(operator === '÷'){
+      result = Number(firstNumber) / Number(secondNumber)
+      displayResult();
+      substituteResultWithFirstNumberInDivision (); 
+    } 
+}
+
+btn1.addEventListener('click', () => {storeValues(1)});
+btn2.addEventListener('click', () => {storeValues(2)});
+btn3.addEventListener('click', () => {storeValues(3)});
+btn4.addEventListener('click', () => {storeValues(4)});
+btn5.addEventListener('click', () => {storeValues(5)});
+btn6.addEventListener('click', () => {storeValues(6)});
+btn7.addEventListener('click', () => {storeValues(7)});
+btn8.addEventListener('click', () => {storeValues(8)});
+btn9.addEventListener('click', () => {storeValues(9)});
+btn0.addEventListener('click', () => {storeValues(0)});
+btnPoint.addEventListener('click',() => {addDecimals('.')});
+btnMin.addEventListener('click', (e) => {operator = e.target.textContent;
+calculate()
+});
+btnPlus.addEventListener('click', (e) => {operator = e.target.textContent;
+calculate()
+});
+btnMul.addEventListener('click', (e) => {operator = e.target.textContent; calculate()
+});
+btnDiv.addEventListener('click', (e) => {operator = e.target.textContent; 
+calculate()
+});
+btnEqual.addEventListener('click', () => {calculate()});
 
 
+
+const clearDisplay = () => {
+  display.textContent = 0;
+  firstNumber = [];
+  secondNumber = [];
+  operator = null;
+  result = null; 
+  
+}
+
+btnCE.addEventListener('click', clearDisplay);
